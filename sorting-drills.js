@@ -100,6 +100,8 @@ const data = [
   14,
   5
 ];
+const data2 = [1, 2, 3, 5, 4, 6]
+let cycles = 0;
 
 function qSort(array, start = 0, end = data.length) {
   if (start >= end) {
@@ -109,6 +111,7 @@ function qSort(array, start = 0, end = data.length) {
   const middle = partition(array, start, end);
   array = qSort(array, start, middle); // 0, 3
   array = qSort(array, middle + 1, end);
+
   return array;
 }
 
@@ -121,6 +124,7 @@ function partition(array, start, end) {
       swap(array, i, j);
       j++;
     }
+    cycles++;
   }
 
   swap(array, end - 1, j);
@@ -128,10 +132,14 @@ function partition(array, start, end) {
 }
 
 function swap(arr, a, b) {
-  const temp = arr[a];
-  arr[a] = arr[b];
-  arr[b] = temp;
+  if(a !== b) {
+    const temp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = temp;
+  }
 }
+
+//console.log(qSort(data, 0, data.length), cycles);
 
 function mSort(data) {
   if (data.length <= 1) {
@@ -156,14 +164,17 @@ function merge(left, right, data) {
     } else {
       data[outputIndex++] = right[rightIndex++];
     }
+    cycles++;
   }
   for (let i = leftIndex; i < left.length; i++) {
     data[outputIndex++] = left[leftIndex++];
+    cycles++;
   }
   for (let i = rightIndex; i < right.length; i++) {
     data[outputIndex++] = right[rightIndex++];
+    cycles++;
   }
   return data;
 }
 
-console.log(qSort(data));
+console.log(mSort(data), cycles);
